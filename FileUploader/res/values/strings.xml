@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FileUploader</string>
+    <string name="action_new_item">Kurti daiktą</string>
+    <string name="title">Naujo nereikalingo daikto sukūrimas</string>
+    <string name="button1Title">Sukurti įrašą</string>
+    <string name="button2Title">Fotografuoti</string>
+    <string name="imageViewText">Picture to be Uploaded</string>
+    <string name="itemAddress">adresas</string>
+    <string name="itemName">daikto pavadinimas</string>
+    <string name="itemLatitude">ilguma</string>
+    <string name="itemLongitude">platuma</string>
+    <string name="itemDescription">daikto aprašymas</string>
+    <string name="categoryPrompt">Pasirinkite kategoriją</string>
+    
+    <string-array name="categoryList">
+        <item>Dviratis</item>
+        <item>Televizorius</item>
+    </string-array>
+    <string name="action_refresh_list">Atnaujinti Sąrašą</string>
+
+</resources>
