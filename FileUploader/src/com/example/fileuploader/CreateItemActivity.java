@@ -69,7 +69,7 @@ public class CreateItemActivity extends Activity {
 				+ "/Pictures/Elsa.jpg";
 		Log.v(TAG, "picture path: " + picturePath);
 
-		iw = (ImageView) findViewById(R.id.imageView1);
+		iw = (ImageView) findViewById(R.id.itemImage);
 		File imgFile = new File(picturePath);
 		if (imgFile.exists()) {
 			Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
@@ -144,7 +144,7 @@ public class CreateItemActivity extends Activity {
 					reqEntity.addPart("userfile", bab); //image file
 
 					//text info
-					fileName = fileName.substring(0, fileName.indexOf('.')
+					fileName = fileName.substring(0, fileName.indexOf('.'));
 					reqEntity.addPart("filename", new StringBody(fileName.substring(0, fileName.indexOf('.')),Charset.forName("UTF-8")));
 					Log.v(TAG, fileName);
 					reqEntity.addPart("itemname", new StringBody(itemName,Charset.forName("UTF-8")));

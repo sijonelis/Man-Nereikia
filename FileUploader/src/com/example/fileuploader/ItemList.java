@@ -3,14 +3,19 @@ package com.example.fileuploader;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.StringBody;
@@ -22,6 +27,9 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,23 +48,33 @@ public class ItemList extends Activity {
 	final String TAG = "fileUploader";
 	public MNItemAdapter adapter;
 	public Context context;
-	
+	MNItem globalIitemArray[]; 
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item_list);
-		context = this; //reikalingas onPostExecute -.-
+		context = this; // reikalingas onPostExecute -.-
 		new ItemDownloader().execute();
-		ListView lw = (ListView)findViewById(R.id.listView1);
+		ListView lw = (ListView) findViewById(R.id.listView1);
 		lw.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				TextView tw = (TextView) view.findViewById(R.id.invisibleLine);
-				Toast.makeText(getApplicationContext(), "Pasirinkto item ID: " + tw.getText().toString(), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(),
+						"Pasirinkto item ID: " + tw.getText().toString(),
+						Toast.LENGTH_LONG).show();
 				
+				Intent i = new Intent(ItemList.this, ItemView.class);
+				i.putExtra("itemName", globalIitemArray[position].name);
+				i.putExtra("itemCategory", globalIitemArray[position].category);
+				i.putExtra("itemDescription", globalIitemArray[position].description);
+				i.putExtra("itemAddress", globalIitemArray[position].address);
+				i.putExtra("itemImage", globalIitemArray[position].image);
+				startActivity(i);
 			}
-			
+
 		});
 	}
 
@@ -100,13 +118,13 @@ public class ItemList extends Activity {
 
 	private class ItemDownloader extends AsyncTask<String, Void, String> {
 
-		MNItem itemArray[]; //sukuriam MNItem tipo objektu masyva
+		MNItem itemArray[]; // sukuriam MNItem tipo objektu masyva
 		public JSONArray jArray;
+
 		@Override
 		protected String doInBackground(String... params) {
 			String postUrl = "http://www.mannereikia.lt/index.php/item/androiditemrequest";
 			final String ASYNC_TASK_OK = "1";
-			
 
 			try {
 				HttpClient httpClient = new DefaultHttpClient();
@@ -132,16 +150,33 @@ public class ItemList extends Activity {
 				String tempStr = s.toString();
 				try {
 					JSONObject jObject = new JSONObject(tempStr);
-					jArray = jObject.getJSONArray("items");//pasiimam JSON response vardu "items". Pasidarom is jo JSON array 
-					
-					itemArray = new MNItem[jArray.length()];//inicializuojam objektu masyva pagal JSON elementu kieki
-					
+					jArray = jObject.getJSONArray("items");// pasiimam JSON
+															// response vardu
+															// "items".
+															// Pasidarom is jo
+															// JSON array
+
+					itemArray = new MNItem[jArray.length()];// inicializuojam
+															// objektu masyva
+															// pagal JSON
+															// elementu kieki
+
 					for (int i = 0; i < jArray.length(); i++) {
-						JSONObject e = jArray.getJSONObject(i); 
-						String itemString = e.getString("item"); //pasiimam jo elementa vardu "item"
-						JSONObject jItem = new JSONObject(itemString);  //susikuriam JSON objekta
-						
-						itemArray[i] = new MNItem(jItem.getString("id"), jItem.getString("name"), jItem.getString("category")); //uzpildom Item objekta JSON masyvo informacija
+						JSONObject e = jArray.getJSONObject(i);
+						String itemString = e.getString("item"); // pasiimam jo
+																	// elementa
+																	// vardu
+																	// "item"
+						JSONObject jItem = new JSONObject(itemString); // susikuriam
+																		// JSON
+																		// objekta
+
+						itemArray[i] = new MNItem(jItem.getString("id"),
+								jItem.getString("name"),
+								jItem.getString("category"), jItem.getString("description"), jItem.getString("address"), jItem.getString("imageLink")); // uzpildom Item
+																// objekta JSON
+																// masyvo
+																// informacija
 					}
 				} catch (JSONException e) {
 					Log.e(TAG, "JSONObject klaida");
@@ -176,12 +211,15 @@ public class ItemList extends Activity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			
+
 			// ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar1);
 			// pb.setVisibility(View.INVISIBLE);
-			adapter = new MNItemAdapter(context, R.layout.list_adapter, itemArray); //susikuriam MNAdapter tipo adapteri, kuriam priskiriam susikurta ITEM objektu masyva
-			ListView lw = (ListView)findViewById(R.id.listView1);
+			adapter = new MNItemAdapter(context, R.layout.list_adapter,
+					itemArray); // susikuriam MNAdapter tipo adapteri, kuriam
+								// priskiriam susikurta ITEM objektu masyva
+			ListView lw = (ListView) findViewById(R.id.listView1);
 			lw.setAdapter(adapter);
+			globalIitemArray = itemArray;
 		}
 
 		@Override

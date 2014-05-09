@@ -13,11 +13,15 @@
     <string name="itemLongitude">platuma</string>
     <string name="itemDescription">daikto aprašymas</string>
     <string name="categoryPrompt">Pasirinkite kategoriją</string>
-    
+
     <string-array name="categoryList">
         <item>Dviratis</item>
         <item>Televizorius</item>
     </string-array>
+
     <string name="action_refresh_list">Atnaujinti Sąrašą</string>
+    <string name="title_activity_item_view">ItemView</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
