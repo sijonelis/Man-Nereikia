@@ -104,7 +104,7 @@ public class ItemList extends Activity {
 		public JSONArray jArray;
 		@Override
 		protected String doInBackground(String... params) {
-			String postUrl = "http://www.mannereikia.lt/2014/index.php?r=item/androiditemrequest";
+			String postUrl = "http://www.mannereikia.lt/index.php/item/androiditemrequest";
 			final String ASYNC_TASK_OK = "1";
 			
 

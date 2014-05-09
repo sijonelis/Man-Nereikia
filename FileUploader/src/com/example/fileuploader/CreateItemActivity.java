@@ -117,7 +117,7 @@ public class CreateItemActivity extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			//String postUrl = "http://www.mannereikia.lt/2014/index.php/item/androidUpload";
-			String postUrl = "http://www.mannereikia.lt/2014/index.php?r=item/androidupload";
+			String postUrl = "http://www.mannereikia.lt/index.php/item/androidupload";
 			String[] parts = picturePath.split("/");
 			String fileName = parts[parts.length-1];
 			
@@ -144,7 +144,9 @@ public class CreateItemActivity extends Activity {
 					reqEntity.addPart("userfile", bab); //image file
 
 					//text info
-					reqEntity.addPart("filename", new StringBody(fileName,Charset.forName("UTF-8")));
+					fileName = fileName.substring(0, fileName.indexOf('.')
+					reqEntity.addPart("filename", new StringBody(fileName.substring(0, fileName.indexOf('.')),Charset.forName("UTF-8")));
+					Log.v(TAG, fileName);
 					reqEntity.addPart("itemname", new StringBody(itemName,Charset.forName("UTF-8")));
 					reqEntity.addPart("itemcategoryid", new StringBody(itemCategoryId,Charset.forName("UTF-8")));
 					reqEntity.addPart("itemdescription", new StringBody(itemDescription,Charset.forName("UTF-8")));
