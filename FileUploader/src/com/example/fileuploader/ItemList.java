@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 
@@ -29,6 +30,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -57,7 +60,6 @@ public class ItemList extends Activity {
 		new ItemDownloader().execute();
 		ListView lw = (ListView) findViewById(R.id.listView1);
 		lw.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -120,6 +122,7 @@ public class ItemList extends Activity {
 
 		MNItem itemArray[]; // sukuriam MNItem tipo objektu masyva
 		public JSONArray jArray;
+		Bitmap thumbnail;
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -170,10 +173,17 @@ public class ItemList extends Activity {
 						JSONObject jItem = new JSONObject(itemString); // susikuriam
 																		// JSON
 																		// objekta
-
+						try{
+							GetBitmap bitmapGetter = new GetBitmap();
+							thumbnail = Bitmap.createScaledBitmap(bitmapGetter.getBitmapFromURL("http://www.mannereikia.lt/images/"+jItem.getString("imageLink")), 110, 150, false);
+						}
+					    catch (NullPointerException inpe) {
+					    	InputStream is = getResources().openRawResource(R.drawable.noimage);
+							thumbnail = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(is), 110, 150, false);
+					    }
 						itemArray[i] = new MNItem(jItem.getString("id"),
 								jItem.getString("name"),
-								jItem.getString("category"), jItem.getString("description"), jItem.getString("address"), jItem.getString("imageLink")); // uzpildom Item
+								jItem.getString("category"), jItem.getString("description"), jItem.getString("address"), jItem.getString("imageLink"), thumbnail); // uzpildom Item
 																// objekta JSON
 																// masyvo
 																// informacija
@@ -227,5 +237,7 @@ public class ItemList extends Activity {
 			// ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar1);
 			// pb.setVisibility(View.VISIBLE);
 		}
+		
+		
 	}
 }

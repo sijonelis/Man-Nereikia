@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MNItemAdapter extends ArrayAdapter<MNItem>{
@@ -34,7 +35,8 @@ public class MNItemAdapter extends ArrayAdapter<MNItem>{
             holder = new ItemHolder();
             holder.txtTitle = (TextView)row.findViewById(R.id.firstLine);
             holder.txtCategory = (TextView)row.findViewById(R.id.secondLine);
-            holder.txtId = (TextView)row.findViewById(R.id.invisibleLine);     
+            holder.txtId = (TextView)row.findViewById(R.id.invisibleLine);    
+            holder.icon = (ImageView)row.findViewById(R.id.icon);
             row.setTag(holder);
         }
         else
@@ -46,6 +48,8 @@ public class MNItemAdapter extends ArrayAdapter<MNItem>{
         holder.txtTitle.setText(item.name);
         holder.txtCategory.setText(item.category);
         holder.txtId.setText(item.id);
+        holder.icon.setImageBitmap(item.imageBitmap);
+        
         
         return row;
     }
@@ -55,5 +59,6 @@ public class MNItemAdapter extends ArrayAdapter<MNItem>{
         TextView txtTitle;
         TextView txtCategory;
         TextView txtId;
+        ImageView icon;
     }
 }
