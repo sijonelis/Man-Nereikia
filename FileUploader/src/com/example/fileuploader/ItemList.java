@@ -92,11 +92,15 @@ public class ItemList extends Activity {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 		case R.id.action_newItem:
-			Intent i = new Intent(ItemList.this, CreateItemActivity.class);
-			startActivityForResult(i, CREATE_ITEM);
+			Intent newItemIntent = new Intent(ItemList.this, CreateItemActivity.class);
+			startActivityForResult(newItemIntent, CREATE_ITEM);
 			return true;
 		case R.id.action_refresh_list:
 			new ItemDownloader().execute();
+			return true;
+		case R.id.login:
+			Intent loginIntent = new Intent(ItemList.this, LoginActivity.class);
+			startActivity(loginIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -176,6 +180,7 @@ public class ItemList extends Activity {
 						try{
 							GetBitmap bitmapGetter = new GetBitmap();
 							thumbnail = Bitmap.createScaledBitmap(bitmapGetter.getBitmapFromURL("http://www.mannereikia.lt/images/"+jItem.getString("imageLink")), 110, 150, false);
+//							thumbnail = null;
 						}
 					    catch (NullPointerException inpe) {
 					    	InputStream is = getResources().openRawResource(R.drawable.noimage);

@@ -51,6 +51,11 @@
             android:name="com.example.fileuploader.ItemView"
             android:label="@string/title_activity_item_view" >
         </activity>
+        <activity
+            android:name="com.example.fileuploader.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
     </application>
 
 </manifest>

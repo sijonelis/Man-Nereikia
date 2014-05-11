@@ -145,7 +145,7 @@ public class CreateItemActivity extends Activity {
 
 					//text info
 					fileName = fileName.substring(0, fileName.indexOf('.'));
-					reqEntity.addPart("filename", new StringBody(fileName.substring(0, fileName.indexOf('.')),Charset.forName("UTF-8")));
+					reqEntity.addPart("filename", new StringBody(fileName,Charset.forName("UTF-8")));
 					Log.v(TAG, fileName);
 					reqEntity.addPart("itemname", new StringBody(itemName,Charset.forName("UTF-8")));
 					reqEntity.addPart("itemcategoryid", new StringBody(itemCategoryId,Charset.forName("UTF-8")));
