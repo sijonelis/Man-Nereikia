@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -127,11 +128,17 @@ public class ItemList extends Activity {
 		MNItem itemArray[]; // sukuriam MNItem tipo objektu masyva
 		public JSONArray jArray;
 		Bitmap thumbnail;
+		HashMap<String, String> mCategories = new HashMap<String, String>();
 
 		@Override
 		protected String doInBackground(String... params) {
 			String postUrl = "http://www.mannereikia.lt/index.php/item/androiditemrequest";
 			final String ASYNC_TASK_OK = "1";
+			
+			mCategories.put("1", "Dviračiai");
+			mCategories.put("2", "Televizoriai");
+			mCategories.put("3", "Kompiuteriai");
+			mCategories.put("4", "Drabužiai");
 
 			try {
 				HttpClient httpClient = new DefaultHttpClient();
@@ -188,7 +195,7 @@ public class ItemList extends Activity {
 					    }
 						itemArray[i] = new MNItem(jItem.getString("id"),
 								jItem.getString("name"),
-								jItem.getString("category"), jItem.getString("description"), jItem.getString("address"), jItem.getString("imageLink"), thumbnail); // uzpildom Item
+								mCategories.get(jItem.getString("category")), jItem.getString("description"), jItem.getString("address"), jItem.getString("imageLink"), thumbnail); // uzpildom Item
 																// objekta JSON
 																// masyvo
 																// informacija
