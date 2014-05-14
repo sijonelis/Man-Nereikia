@@ -49,10 +49,15 @@ import android.widget.Toast;
 @SuppressWarnings("deprecation")
 public class ItemList extends Activity {
 	final int CREATE_ITEM = 100;
+	final int LOGIN = 101;
 	final String TAG = "fileUploader";
 	public MNItemAdapter adapter;
 	public Context context;
-	MNItem globalIitemArray[]; 
+	MNItem globalIitemArray[];
+	
+	String mUsername = "";
+	String mPassword = "";
+	
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,6 +99,8 @@ public class ItemList extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_newItem:
 			Intent newItemIntent = new Intent(ItemList.this, CreateItemActivity.class);
+			newItemIntent.putExtra("username", mUsername);
+			newItemIntent.putExtra("password", mPassword);
 			startActivityForResult(newItemIntent, CREATE_ITEM);
 			return true;
 		case R.id.action_refresh_list:
@@ -101,7 +108,7 @@ public class ItemList extends Activity {
 			return true;
 		case R.id.login:
 			Intent loginIntent = new Intent(ItemList.this, LoginActivity.class);
-			startActivity(loginIntent);
+			startActivityForResult(loginIntent, LOGIN);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -121,6 +128,11 @@ public class ItemList extends Activity {
 							+ " then the Picture was most probably uploaded.",
 					Toast.LENGTH_LONG).show();
 		}
+		if (requestCode == LOGIN && resultCode == RESULT_OK) {
+			mUsername = data.getStringExtra("username");
+			mPassword = data.getStringExtra("username");
+		}
+		
 	}
 
 	private class ItemDownloader extends AsyncTask<String, Void, String> {

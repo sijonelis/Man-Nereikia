@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">FileUploader</string>
+    <string name="app_name">Man Nereikia</string>
     <string name="action_new_item">Kurti daiktą</string>
     <string name="title">Naujo nereikalingo daikto sukūrimas</string>
     <string name="button1Title">Sukurti įrašą</string>
@@ -17,6 +17,8 @@
     <string-array name="categoryList">
         <item>Dviratis</item>
         <item>Televizorius</item>
+        <item>Kompiuteris</item>
+        <item>Drabužis</item>
     </string-array>
 
     <string name="action_refresh_list">Atnaujinti Sąrašą</string>

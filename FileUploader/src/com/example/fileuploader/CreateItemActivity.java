@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.text.DecimalFormat;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -27,6 +28,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -275,6 +278,16 @@ public class CreateItemActivity extends Activity {
 		itemAddress = itemAddressField.getText().toString();
 		itemlatitude = itemlatitudeField.getText().toString();
 		itemlongitude = itemlongitudeField.getText().toString();
+		
+		LocationManager locationManager = (LocationManager)
+				getSystemService(Context.LOCATION_SERVICE);
+		
+		Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+	
+		DecimalFormat coordinateFormat = new DecimalFormat("#.00000000");
+		
+		itemlatitude = coordinateFormat.format(location.getLatitude());
+		itemlongitude = coordinateFormat.format(location.getLongitude());
 	}
 	/**
 	 * Get a file path from a Uri. This will get the the path for Storage Access
